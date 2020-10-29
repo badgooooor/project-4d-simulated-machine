@@ -1,0 +1,25 @@
+{
+  "name": "project-4d-simulated-machine",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/borbier/project-4d-simulated-machine.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/borbier/project-4d-simulated-machine/issues"
+  },
+  "homepage": "https://github.com/borbier/project-4d-simulated-machine#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "mqtt": "^4.2.3",
+    "node-cron": "^2.0.3"
+  }
+}
