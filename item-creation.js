@@ -9,7 +9,7 @@ module.exports.createDefect = () => {
   }
 }
 
-module.exports.createItem = (machine_id, material_id, item_id) => {
+module.exports.createItem = (machine_id, material_id) => {
   const defect = Math.random() > 0.8 ? this.createDefect() : null;
   
   let item = {
@@ -18,7 +18,9 @@ module.exports.createItem = (machine_id, material_id, item_id) => {
   };
 
   if (defect !== null || defect !== undefined) {
-    item.defect = defect;
+    item.defects = [defect];
+  } else {
+    item.defects = [];
   }
 
   return item;

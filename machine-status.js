@@ -1,12 +1,12 @@
 const mqtt = require('mqtt');
 const cron = require('node-cron');
 const dotenv = require('dotenv');
-const { simulateMachineHealth, simulateMachineValue, machineStatus, simulateItem } = require('./mqtt-handler');
+const { simulateMachineValue, machineStatus, simulateItem } = require('./mqtt-handler');
 
 dotenv.config();
 
 const machines = [
-  { id: "5f8d6b7f4ebb5c028321a311", status: "active" },
+  { id: "5ff7d1c1bba5cb084ed1ed94", status: "active" },
 ];
 
 function findWithAttr(array, attr, value) {
@@ -46,13 +46,16 @@ machines.forEach((machine, index) => {
       simulateMachineValue(client, machine.id, "sound-intensity", 20, 100);
       simulateMachineValue(client, machine.id, "vibration", 10, 20);
       simulateMachineValue(client, machine.id, "temperature", 30, 40);
+      machineStatus(client, machine.id, "5ff7da33bba5cb084ed1edcb", "active");
       console.log("\n");
+    } else {
+      machineStatus(client, machine.id, "5ff7da33bba5cb084ed1edcb", machine.status);
     }
   }, 60000);
 
   setInterval(() => {
     if (machine.status === "active") {
-      simulateItem(client, machine.id, "xxxxxxx");
+      simulateItem(client, machine.id, "5ff7da33bba5cb084ed1edcb");
     }
   }, 20000);
 });

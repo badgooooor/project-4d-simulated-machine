@@ -24,15 +24,25 @@ module.exports.simulateItem = (client, machine_id, material_id) => {
 
   client.publish(
     `stations/${machine_id}/item`,
-    item
+    JSON.stringify(item)
   );
   console.log(`+ item from : ${machine_id}, ${item}`)
 }
 
-module.exports.machineStatus = (client, machine_id, status) => {
+module.exports.machineStatus = (client, machine_id, material_id, status) => {
+  const payload = {
+    station_id: machine_id,
+    material_id: material_id,
+    status: {
+      type: "health",
+      value: status
+    },
+    timestamp: new Date()
+  };
+
   client.publish(
-    `stations/${machine_id}/status`,
-    status
+    `stations/${machine_id}/event/health`,
+    JSON.stringify(payload)
   );
   console.log(`+ machine : ${machine_id}, ${status}`)
 }
