@@ -1,6 +1,7 @@
 const mqtt = require('mqtt');
 const cron = require('node-cron');
 const dotenv = require('dotenv');
+
 const { simulateMachineValue, machineStatus, simulateItem } = require('./mqtt-handler');
 
 dotenv.config();
@@ -28,6 +29,28 @@ client.on('connect', function() {
 
   machines.forEach((machine, index) => {
     client.subscribe(`stations/${machine.id}/status`);
+
+    client.publish(
+      `stations/${machine.id}/action`,
+      JSON.stringify({
+        station_id: machine.id,
+        action: "start",
+      })
+    );
+  });
+});
+
+client.on('end', (topic, message) => {
+  machines.forEach((machine, index) => {
+
+    console.log("Send shut down to ", machine.id);
+    client.publish(
+      `stations/${machine.id}/action`,
+      JSON.stringify({
+        station_id: machine.id,
+        action: "shut-down",
+      })
+    );
   });
 });
 
@@ -58,4 +81,10 @@ machines.forEach((machine, index) => {
       simulateItem(client, machine.id, "5ff7da33bba5cb084ed1edcb");
     }
   }, 20000);
+});
+
+process.on('SIGINT', async function() {
+  console.log("Caught interrupt signal");
+  client.end();
+  process.exit();
 });
